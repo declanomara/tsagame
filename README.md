@@ -14,3 +14,14 @@ Some progression system must be implemented, with some conclusion.
 - Implement level manager
 - Implement main level, lobby of sorts
 - Build levels
+
+
+    Player implementation
+    - def move(direction, timedelta)
+        - Move base_move_speed * timedelta
+        
+    - def interact()
+        - Interact with doors and other stuff
+        
+    - def draw()
+        - Draw self

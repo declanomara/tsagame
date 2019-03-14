@@ -1,7 +1,6 @@
 import pygame
 import datetime
 import sys
-import inspect
 from lib.managers import *
 from levels.levels import *
 from pygame.locals import *
@@ -27,6 +26,7 @@ if __name__ == '__main__':
     lm.set_level('mainmenu')
 
     while True:
+
         # Time delta and FPS
         clock.tick(FPS)
         current_time = datetime.datetime.now()
@@ -35,6 +35,12 @@ if __name__ == '__main__':
 
         # Updating managers
         i.update_pressed()
+
+        if i.is_pressed('a'):
+
+
+            print('PAUSED')
+            continue
 
         # Load current level
         lm.current_level.draw(windowSurface)
