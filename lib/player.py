@@ -12,16 +12,19 @@ class PlayerMovement:
         self.rect.x = self.x + self.moveX
         self.rect.y = self.y + self.moveY
 '''
+import pygame
 
 
 class Player:
-    def __init__(self, texture, x=0, y=0):
+    def __init__(self, texture='player.png', x=0, y=0):
         self.x = x
         self.y = y
+        self.texture = pygame.image.load(texture)
         self.base_movement_speed = 1
 
     def move(self, direction, timedelta):
         pass
+
 
 
 
