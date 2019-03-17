@@ -10,7 +10,7 @@ class MainMenu(Level):
 
     def draw(self, surface):
         surface.fill((255, 255, 255))
-        b = Button(20,20,100,30,'example')
+        b = Button(960,540,190,70,'example')
         b.draw(surface)
 
 

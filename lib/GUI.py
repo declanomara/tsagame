@@ -5,7 +5,7 @@ pygame.font.init()
 
 
 class Button:
-    def __init__(self, x, y, w, h, label, font='Comic Sans MS', size=24):
+    def __init__(self, x, y, w, h, label, font='Comic Sans MS', size=48):
         self.x = x
         self.y = y
         self.width = w
