@@ -1,10 +1,15 @@
 class Level:
-    def __init__(self, name):
+    def __init__(self, name, surface, lm):
         self.name = name
+        self.surface = surface
+        self.lm = lm
 
-    def update(self, surface):
-        self.draw(surface)
+    def update(self):
+        self.draw()
         pass
 
-    def draw(self, surface):
+    def event_update(self, event):
+        pass
+
+    def draw(self):
         pass

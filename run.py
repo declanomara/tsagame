@@ -1,4 +1,5 @@
 import pygame
+import pygbutton
 import datetime
 import sys
 from lib.managers import *
@@ -21,8 +22,12 @@ if __name__ == '__main__':
     previous_time = datetime.datetime.now()  # Used to get time delta, crucial for keeping movement speed consistent
 
     # Initially load all levels
-    MainMenu = MainMenu()
-    lm = LevelManager({'mainmenu': MainMenu})
+
+    lm = LevelManager()
+    MainMenu = MainMenu(windowSurface, lm)
+    Credits = Credits(windowSurface, lm)
+    lm.add_level('mainmenu', MainMenu)
+    lm.add_level('credits', Credits)
     lm.set_level('mainmenu')
 
     while True:
@@ -43,10 +48,12 @@ if __name__ == '__main__':
             continue
 
         # Load current level
-        lm.current_level.draw(windowSurface)
+        lm.current_level.update()
         for event in pygame.event.get():
+            lm.current_level.event_update(event)
             if event.type == QUIT:
                 pygame.quit()
                 sys.exit()
+
 
         pygame.display.update()

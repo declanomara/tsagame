@@ -1,10 +1,16 @@
 class LevelManager:
-    def __init__(self, levels: dict):
-        self.levels = levels
+    def __init__(self, levels: dict = None):
+        if levels is not None:
+            self.levels = levels
+        self.levels = {}
         self.current_level = None
 
     def set_level(self, level_name):
         self.current_level = self.levels[level_name]
+
+    def add_level(self, level_name, level):
+        self.levels[level_name] = level
+
 
 
 class InputManager:
