@@ -3,6 +3,7 @@ import pygbutton
 import datetime
 import sys
 from lib.managers import *
+from lib.player import Player
 from levels.levels import *
 from pygame.locals import *
 
@@ -29,6 +30,9 @@ if __name__ == '__main__':
     lm.add_level('mainmenu', MainMenu)
     lm.add_level('credits', Credits)
     lm.set_level('mainmenu')
+
+    p = Player()
+    p.draw(windowSurface)
 
     while True:
 
