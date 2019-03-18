@@ -7,34 +7,36 @@ class MainMenu(Level):
         self.name = 'mainmenu'
         self.surface = surface
         self.lm = lm
+        super().__init__(self.name, surface, lm)
+
+        # Required so elements can scale according to size rather than have absolute size
         self.width, self.height = surface.get_size()
-        self.i = 0
-        self.buttons = []
+        self.buttons = []  # To store buttons for easy access in event_update
+
+        # Crude way to create buttons but works, notice that the dimensions are a portion of height/width
         self.buttons.append(pygbutton.PygButton((self.width/3, self.height/8, self.width/3, 70), 'Play'))
         self.buttons.append(pygbutton.PygButton((self.width / 3, 2 * self.height / 8, self.width / 3, 70), 'Options'))
         self.buttons.append(pygbutton.PygButton((self.width / 3, 3 * self.height / 8, self.width / 3, 70), 'Credits'))
-        self.button_functions = {'Options': 'options', 'Play': 'lobby', 'Credits': 'credits'}
-        super().__init__(self.name, surface, lm)
 
-        pass
+        # Stupid way to make my life easier to switch levels, not necessary
+        self.button_functions = {'Options': 'options', 'Play': 'lobby', 'Credits': 'credits'}
 
     def draw(self):
+        super().draw() # Standard super call in case we add anything to all levels
         self.surface.fill((255, 255, 255))
         for obj in self.buttons:
             obj.draw(self.surface)
 
     def update(self):
-        # self.i += 2
-        super().update()
+        super().update() # See draw method
+        # We have nothing to update each frame so doesn't need any fancy code here
 
     def event_update(self, event):
-        super().event_update(event)
+        super().event_update(event) # See draw methods
 
-        for b in self.buttons:
-            # print(event)
+        for b in self.buttons: # Just handling click events on buttons
             if 'click' in b.handleEvent(event):
                 self.lm.set_level(self.button_functions[b.caption])
-                # print(f'This button works we just have to implement a level named {self.button_functions[b.caption]}')
 
 
 class Credits(Level):
