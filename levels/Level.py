@@ -5,7 +5,7 @@ class Level:
         self.lm = lm  # Level manager, allows for levels to switch to another level. Crude but works.
 
     # Called every frame in the main loop
-    def update(self):
+    def update(self, timedelta):
         self.draw()
         pass
 

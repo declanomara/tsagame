@@ -1,9 +1,7 @@
 import pygame
-import pygbutton
 import datetime
 import sys
 from lib.managers import *
-from lib.player import Player
 from levels.levels import *
 from pygame.locals import *
 
@@ -25,7 +23,7 @@ if __name__ == '__main__':
     # Initially load all levels
 
     lm = LevelManager()
-    MainMenu = MainMenu(windowSurface, lm)
+    MainMenu = MainMenu(windowSurface, lm, i)
     Credits = Credits(windowSurface, lm)
     lm.add_level('mainmenu', MainMenu)
     lm.add_level('credits', Credits)
@@ -45,14 +43,8 @@ if __name__ == '__main__':
         # Updating managers
         i.update_pressed()
 
-        if i.is_pressed('a'):
-
-
-            print('PAUSED')
-            continue
-
         # Load current level
-        lm.current_level.update()
+        lm.current_level.update(time_delta.total_seconds())
         for event in pygame.event.get():
             lm.current_level.event_update(event)
             if event.type == QUIT:
