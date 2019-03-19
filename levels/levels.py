@@ -25,10 +25,17 @@ class MainMenu(Level):
                                                  (self.width, self.height))
 
         # Crude way to create buttons but works, notice that the dimensions are a portion of height/width
-        self.buttons.append(pygbutton.PygButton((self.width/3, 7 * self.height/15, self.width/3, self.height/16), 'Play'))
-        self.buttons.append(pygbutton.PygButton((self.width / 3, 8 * self.height / 15, self.width / 3, self.height/16), 'Options'))
-        self.buttons.append(pygbutton.PygButton((self.width / 3, 9 * self.height / 15, self.width / 6, self.height/16), 'Credits'))
-        self.buttons.append(pygbutton.PygButton((self.width / 2, 9 * self.height / 15, self.width / 6, self.height/16), 'Quit'))
+        self.buttons.append(
+            pygbutton.PygButton((self.width / 3, 7 * self.height / 15, self.width / 3, self.height / 16), 'Play'))
+
+        self.buttons.append(
+            pygbutton.PygButton((self.width / 3, 8 * self.height / 15, self.width / 3, self.height / 16), 'Options'))
+
+        self.buttons.append(
+            pygbutton.PygButton((self.width / 3, 9 * self.height / 15, self.width / 6, self.height / 16), 'Credits'))
+
+        self.buttons.append(
+            pygbutton.PygButton((self.width / 2, 9 * self.height / 15, self.width / 6, self.height / 16), 'Quit'))
 
     def draw(self):
         super().draw() # Standard super call in case we add anything to all levels
@@ -128,28 +135,27 @@ class Lobby(Level):
 
 
 class Trivia(Level):
-    def __init__(self, surface):
+    def __init__(self, surface, lm):
         self.name = 'trivia'
         self.surface = surface
+        self.lm = lm
+        super().__init__(self.name, self.surface, self.lm)
 
         self.doorwayTexture = pygame.image.load('levels/objects/doorway.png')
         self.doorways = ['A', 'B', 'C']
 
-        self.options = []
-        self.options.extend('Animation', 'Coding', 'Music', 'Video Games')
+        self.options = ['Animation', 'Coding', 'Music', 'Video Games']
 
         self.buttons = []
 
     def draw(self):
-        self.surface.blit(self.background, self.background.get_rect())
-        self.p.draw(self.surface)
+        # self.surface.blit(self.background, self.background.get_rect())
+        # self.p.draw(self.surface)
+        pass
 
-    def update(self):
-        if pygame.sprite.collide_rect(Player, self.doorways[1], True):
-            return 'Player has entered door and will do X trivia'
+    def update(self, timedelta):
+        if pygame.sprite.collide_rect(Player, self.doorways[1]):
+            print('Player has entered door and will do X trivia')
 
-    def triviaQuestion(self):
-        self.question = 'Why is the sky blue'
-        self.options = ['idk', 'because it is', 'idk3', 'idk4', 1]
 
 

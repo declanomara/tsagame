@@ -5,11 +5,11 @@ from lib.managers import *
 from levels.levels import *
 from pygame.locals import *
 
-
-if getattr(sys, 'frozen', False):
-    print('Running from .exe, not source')
-else:
-    print('Running from source, using resources/')
+if __name__ == '__main__':
+    if getattr(sys, 'frozen', False):
+        print('Running from .exe, not source')
+    else:
+        print('Running from source, using resources/')
 
 def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
