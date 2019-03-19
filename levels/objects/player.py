@@ -1,11 +1,11 @@
 import pygame
-
+from run import resource_path
 
 class Player:
-    def __init__(self, texture='levels/objects/player.png', x=0, y=0):
+    def __init__(self, texture='resources\\player.png', x=0, y=0):
         self.x = x
         self.y = y
-        self.texture = pygame.image.load(texture)
+        self.texture = pygame.image.load(resource_path(texture))
         self.rect = self.texture.get_rect()
         self.base_movement_speed = {'x': 1, 'y': 1}
         self.scale = 64

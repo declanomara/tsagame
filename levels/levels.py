@@ -1,7 +1,8 @@
-import pygbutton
+import lib.pygbutton as pygbutton
 import sys
 import pygame
 
+from run import resource_path
 from levels.Level import Level
 from levels.objects.player import Player
 
@@ -20,7 +21,7 @@ class MainMenu(Level):
 
         self.p = Player(x=self.width/4, y=7*self.height/15)
         self.p.scale = self.height/15 * 3
-        self.background = pygame.transform.scale(pygame.image.load('levels/objects/mainmenubackground.png'),
+        self.background = pygame.transform.scale(pygame.image.load(resource_path('resources\\mainmenubackground.png')),
                                                  (self.width, self.height))
 
         # Crude way to create buttons but works, notice that the dimensions are a portion of height/width
@@ -101,7 +102,7 @@ class Lobby(Level):
 
         self.checked_data = False
 
-        self.background = pygame.transform.scale(pygame.image.load('levels/objects/mainmenubackground.png'), self.surface.get_size())
+        self.background = pygame.transform.scale(pygame.image.load(resource_path('resources\\mainmenubackground.png')), self.surface.get_size())
         self.p = Player(x=self.player_x, y=self.player_y)
         self.p.scale = self.height / 15 * 3
 
