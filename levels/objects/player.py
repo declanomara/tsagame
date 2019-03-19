@@ -7,7 +7,7 @@ class Player:
         self.y = y
         self.texture = pygame.image.load(resource_path(texture))
         self.rect = self.texture.get_rect()
-        self.base_movement_speed = {'x': 1, 'y': 1}
+        self.base_movement_speed = {'x': .5, 'y': 1}
         self.scale = 64
 
     def move(self, direction, timedelta):
@@ -21,6 +21,12 @@ class Player:
         t = pygame.transform.scale(self.texture, (width, height))
         surface.blit(t, rect)
 
+    def place(self, x, y):
+        self.x = x
+        self.y = y
+
+    def get_height(self):
+        return self.texture.get_height()
 
 
 

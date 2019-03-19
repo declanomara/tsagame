@@ -71,7 +71,7 @@ class MainMenu(Level):
             if 'click' in b.handleEvent(event):
 
                 if b.caption == 'Play':
-                    self.lm.set_level('lobby', data={'player': {'test': 1}})
+                    self.lm.set_level('lobby', data={'player': {'x': self.width/8 + 1, 'y': 1}})
 
                 elif b.caption == 'Options':
                     self.lm.set_level('options')
@@ -109,27 +109,64 @@ class Lobby(Level):
 
         self.checked_data = False
 
-        self.background = pygame.transform.scale(pygame.image.load(resource_path('resources\\mainmenubackground.png')), self.surface.get_size())
+        self.background = pygame.transform.scale(pygame.image.load(resource_path('resources\\mainmenubackground.png')), (self.surface.get_width() * 2, self.surface.get_height()) )
         self.p = Player(x=self.player_x, y=self.player_y)
         self.p.scale = self.height / 15 * 3
 
+        self.floor_height = 7 * self.height / 15 + self.p.get_height()
+
+        self.background_x = 0
+
     def draw(self):
-        self.surface.blit(self.background, self.background.get_rect())
+        self.surface.blit(self.background, pygame.Rect(self.background_x, 0, self.width, self.height))
         self.p.draw(self.surface)
 
     def update(self, timedelta):
         if not self.checked_data:
+            print('Checking for data')
             try:
                 self.player_x = self.data['player']['x']
-                self.player_x = self.data['player']['y']
+                self.player_y = self.data['player']['y']
+                self.p.place(self.player_x, self.player_y)
+                # print(f'Player at {self.player_x, self.player_y}')
+                # print(self.data)
 
             except TypeError:
+                # print(self.data)
+                # print('TypeError')
                 pass
 
             except KeyError:
+                # print(self.data)
+                # print('KeyError')
                 pass
 
             self.checked_data = True
+
+        direction = {'x': 0, 'y': 0}
+        val = {'a': -1, 'd': 1, 's': 1, 'w': -1}
+        # We have nothing to update each frame so doesn't need any fancy code here
+
+        for key in self.im.keys_down:
+            if key == 'a':
+                if self.width/8 < self.p.x:
+                    direction['x'] += -1
+
+                elif self.background_x < 0:
+                    self.background_x += self.p.base_movement_speed['x'] * timedelta * 1000
+
+
+            if key == 'd':
+                if self.p.x < self.width - self.width/8:
+                    direction['x'] += 1
+
+                elif self.background_x > -self.width:
+                    self.background_x -= self.p.base_movement_speed['x'] * timedelta * 1000
+
+        if self.p.y < self.floor_height - self.p.get_height():
+            direction['y'] = 1
+
+        self.p.move(direction, timedelta)
 
         super().update(timedelta)
 
