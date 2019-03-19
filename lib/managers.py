@@ -5,8 +5,9 @@ class LevelManager:
         self.levels = {}
         self.current_level = None
 
-    def set_level(self, level_name):
+    def set_level(self, level_name, data=None):
         self.current_level = self.levels[level_name]
+        self.current_level.data = data
 
     def add_level(self, level_name, level):
         self.levels[level_name] = level
