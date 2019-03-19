@@ -1,8 +1,9 @@
 import pygame
+import os
 from run import resource_path
 
 class Player:
-    def __init__(self, texture='resources\\player.png', x=0, y=0):
+    def __init__(self, texture=os.path.join('resources', 'player.png'), x=0, y=0):
         self.x = x
         self.y = y
         self.texture = pygame.image.load(resource_path(texture))
