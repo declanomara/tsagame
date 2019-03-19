@@ -8,7 +8,7 @@ class Player:
         self.texture = pygame.image.load(resource_path(texture))
         self.rect = self.texture.get_rect()
         self.scale = 64
-        self.base_movement_speed = {'x': 1 / 64, 'y': 1 / 16}
+        self.base_movement_speed = {'x': 1 / .02, 'y': 1 / 16}
         self.movement_speed = {'x': self.base_movement_speed['x'] * self.scale, 'y': self.base_movement_speed['y'] * self.scale}
 
     def move(self, direction, timedelta):
