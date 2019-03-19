@@ -1,6 +1,9 @@
+import pygbutton
+import sys
+import pygame
+
 from levels.Level import Level
 from levels.objects.player import Player
-import pygbutton
 
 
 class MainMenu(Level):
@@ -9,27 +12,33 @@ class MainMenu(Level):
         self.surface = surface
         self.lm = lm
         self.im = im
-        self.p = Player()
         super().__init__(self.name, surface, lm)
 
         # Required so elements can scale according to size rather than have absolute size
         self.width, self.height = surface.get_size()
         self.buttons = []  # To store buttons for easy access in event_update
 
-        # Crude way to create buttons but works, notice that the dimensions are a portion of height/width
-        self.buttons.append(pygbutton.PygButton((self.width/3, self.height/8, self.width/3, 70), 'Play'))
-        self.buttons.append(pygbutton.PygButton((self.width / 3, 2 * self.height / 8, self.width / 3, 70), 'Options'))
-        self.buttons.append(pygbutton.PygButton((self.width / 3, 3 * self.height / 8, self.width / 3, 70), 'Credits'))
+        self.p = Player(x=self.width/4, y=7*self.height/15)
+        self.p.scale = self.height/15 * 3
+        self.background = pygame.transform.scale(pygame.image.load('levels/objects/mainmenubackground.png'),
+                                                 (self.width, self.height))
 
-        # Stupid way to make my life easier to switch levels, not necessary
-        self.button_functions = {'Options': 'options', 'Play': 'lobby', 'Credits': 'credits'}
+        # Crude way to create buttons but works, notice that the dimensions are a portion of height/width
+        self.buttons.append(pygbutton.PygButton((self.width/3, 7 * self.height/15, self.width/3, self.height/16), 'Play'))
+        self.buttons.append(pygbutton.PygButton((self.width / 3, 8 * self.height / 15, self.width / 3, self.height/16), 'Options'))
+        self.buttons.append(pygbutton.PygButton((self.width / 3, 9 * self.height / 15, self.width / 6, self.height/16), 'Credits'))
+        self.buttons.append(pygbutton.PygButton((self.width / 2, 9 * self.height / 15, self.width / 6, self.height/16), 'Quit'))
 
     def draw(self):
         super().draw() # Standard super call in case we add anything to all levels
         self.surface.fill((255, 255, 255))
+        self.surface.blit(self.background, self.background.get_rect())
+
         self.p.draw(self.surface)
         for obj in self.buttons:
             obj.draw(self.surface)
+
+
 
     def update(self, timedelta):
         super().update(timedelta) # See draw method
@@ -52,9 +61,18 @@ class MainMenu(Level):
 
         for b in self.buttons: # Just handling click events on buttons
             if 'click' in b.handleEvent(event):
-                self.lm.set_level(self.button_functions[b.caption])
 
+                if b.caption == 'Play':
+                    self.lm.set_level('lobby', data={'player': {'test': 1}})
 
+                elif b.caption == 'Options':
+                    self.lm.set_level('options')
+
+                if b.caption == 'Credits':
+                    self.lm.set_level('credits')
+
+                if b.caption == 'Quit':
+                    sys.exit(1)
 
 
 class Credits(Level):
@@ -64,4 +82,45 @@ class Credits(Level):
 
     def draw(self):
         self.surface.fill((255, 255, 255))
-        print('Declan, Tommy, John')
+        # print('Declan, Tommy, John')
+        print(self.data)
+
+
+class Lobby(Level):
+    def __init__(self, surface, lm, im):
+        self.name = 'lobby'
+        self.surface = surface
+        self.lm = lm
+        self.im = im
+        self.data = None
+        super().__init__(self.name, self.surface, self.lm)
+
+        self.width, self.height = self.surface.get_size()
+        self.player_x = self.width/4
+        self.player_y = 7*self.height/15
+
+        self.checked_data = False
+
+        self.background = pygame.transform.scale(pygame.image.load('levels/objects/mainmenubackground.png'), self.surface.get_size())
+        self.p = Player(x=self.player_x, y=self.player_y)
+        self.p.scale = self.height / 15 * 3
+
+    def draw(self):
+        self.surface.blit(self.background, self.background.get_rect())
+        self.p.draw(self.surface)
+
+    def update(self, timedelta):
+        if not self.checked_data:
+            try:
+                self.player_x = self.data['player']['x']
+                self.player_x = self.data['player']['y']
+
+            except TypeError:
+                pass
+
+            except KeyError:
+                pass
+
+            self.checked_data = True
+
+        super().update(timedelta)

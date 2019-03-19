@@ -8,7 +8,7 @@ from pygame.locals import *
 if __name__ == '__main__':
     # TODO: replace FPS and RES with some sort of options manager
     FPS = 120  # FPS to run the game at
-    RES = (1920, 1080)  # Resolution of the window, 1080p
+    RES = (1920//4, 1080//4)  # Resolution of the window, 1080p
 
     # Window setup
     pygame.init()
@@ -23,10 +23,14 @@ if __name__ == '__main__':
     # Initially load all levels
 
     lm = LevelManager()
+
     MainMenu = MainMenu(windowSurface, lm, i)
     Credits = Credits(windowSurface, lm)
+    Lobby = Lobby(windowSurface, lm, i)
+
     lm.add_level('mainmenu', MainMenu)
     lm.add_level('credits', Credits)
+    lm.add_level('lobby', Lobby)
     lm.set_level('mainmenu')
 
     p = Player()

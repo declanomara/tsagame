@@ -3,6 +3,7 @@ class Level:
         self.name = name  # Name of the level
         self.surface = surface  # Pygame surface to draw to
         self.lm = lm  # Level manager, allows for levels to switch to another level. Crude but works.
+        self.data = None
 
     # Called every frame in the main loop
     def update(self, timedelta):
