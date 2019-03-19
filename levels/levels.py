@@ -124,3 +124,31 @@ class Lobby(Level):
             self.checked_data = True
 
         super().update(timedelta)
+
+
+class Trivia(Level):
+    def __init__(self, surface):
+        self.name = 'trivia'
+        self.surface = surface
+
+        self.doorwayTexture = pygame.image.load('levels/objects/doorway.png')
+        self.doorways = ['A', 'B', 'C']
+
+        self.options = []
+        self.options.extend('Animation', 'Coding', 'Music', 'Video Games')
+
+        self.buttons = []
+
+    def draw(self):
+        self.surface.blit(self.background, self.background.get_rect())
+        self.p.draw(self.surface)
+
+    def update(self):
+        if pygame.sprite.collide_rect(Player, self.doorways[1], True):
+            return 'Player has entered door and will do X trivia'
+
+    def triviaQuestion(self):
+        self.question = 'Why is the sky blue'
+        self.options = ['idk', 'because it is', 'idk3', 'idk4', 1]
+
+
