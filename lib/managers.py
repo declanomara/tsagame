@@ -12,6 +12,12 @@ class LevelManager:
     def add_level(self, level_name, level):
         self.levels[level_name] = level
 
+    def remove_level(self, level_name):
+        del self.levels[level_name]
+
+    def get_level(self, level_name):
+        return self.levels[level_name]
+
 
 
 class InputManager:

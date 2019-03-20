@@ -1,6 +1,5 @@
 import datetime
 import sys
-import lib.pygbutton
 import os
 from lib.managers import *
 from levels.levels import *
@@ -20,8 +19,8 @@ def resource_path(relative_path):
 
 if __name__ == '__main__':
     # TODO: replace FPS and RES with some sort of options manager
-    FPS = 120  # FPS to run the game at
-    RES = (1920//4, 1080//4)  # Resolution of the window, 1080p
+    FPS = 60  # FPS to run the game at
+    RES = (1920//2, 1080//2)  # Resolution of the window, 1080p
 
     # Window setup
     pygame.init()
@@ -40,10 +39,12 @@ if __name__ == '__main__':
     MainMenu = MainMenu(windowSurface, lm, i)
     Credits = Credits(windowSurface, lm)
     Lobby = Lobby(windowSurface, lm, i)
+    DragRacing = DragRacing(windowSurface, lm, i)
 
     lm.add_level('mainmenu', MainMenu)
     lm.add_level('credits', Credits)
     lm.add_level('lobby', Lobby)
+    lm.add_level('level_0', DragRacing)
     lm.set_level('mainmenu')
 
     p = Player()
