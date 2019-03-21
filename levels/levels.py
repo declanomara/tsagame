@@ -98,9 +98,8 @@ class Credits(Level):
 
         self.text_rect = pygame.Rect(self.width/4, self.height/4, self.width/2, self.height/2)
 
-    def draw(self):
-
-    def
+    def update(self, timedelta):
+        pass
 
     def draw(self):
         self.surface.fill((255, 255, 255))
