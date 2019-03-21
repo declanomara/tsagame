@@ -25,7 +25,7 @@ class MainMenu(Level):
 
         self.p = Player(x=self.width/4, y=7*self.height/15)
         self.p.scale = self.height/15 * 3
-        self.background = pygame.transform.scale(pygame.image.load(resource_path(os.path.join('resources', 'mainmenubackground.png'))),
+        self.background = pygame.transform.scale(pygame.image.load(resource_path(os.path.join('resources', 'mainmenubackground_0.png'))),
                                                  (self.width, self.height))
 
         # Crude way to create buttons but works, notice that the dimensions are a portion of height/width
@@ -126,7 +126,7 @@ class Lobby(Level):
 
         self.text_rect = pygame.Rect(self.width/8 + self.p.get_width(), self.floor_height + self.p.get_height(), self.width - self.width/4 - self.p.get_width() * 2, self.height - self.floor_height + self.p.get_height())
         self.sign_text = Text('Enter levels by pressing "w" in front of the door. To win the TSA competition, you must beat all levels! Good luck! \n Press ENTER to continue.', self.text_rect)
-        self.tutorial_text = Text('Move using through the main hallway using "A" and "D" keys \nPress ENTER to continue.', self.text_rect)
+        self.tutorial_text = Text('Move through the main hallway using "A" and "D" keys \nPress ENTER to continue.', self.text_rect)
 
         self.tutorial = True
         self.sign_prompt = False
@@ -222,13 +222,14 @@ class Lobby(Level):
         direction = {'x': 0, 'y': 0}
         val = {'a': -1, 'd': 1, 's': 1, 'w': -1}
 
+        # print(self.background_x)
         if not self.tutorial and not self.sign_prompt:
             for key in self.im.keys_down:
                 if key == 'a':
                     if self.width/8 + self.p.get_width() < self.p.x + self.p.movement_speed['x'] * timedelta:
                         direction['x'] += -1
 
-                    elif self.background_x < 0:
+                    elif self.background_x < 0 - self.p.movement_speed['x'] * timedelta:
                         self.background_x += self.p.movement_speed['x'] * timedelta
 
 
@@ -236,8 +237,11 @@ class Lobby(Level):
                     if self.p.x + self.p.movement_speed['x'] * timedelta < self.width - self.width/8 - self.p.get_width():
                         direction['x'] += 1
 
-                    elif self.background_x > -self.width:
+                    elif self.background_x > -self.background.get_width()/2:
                         self.background_x -= self.p.movement_speed['x'] * timedelta
+
+                    if self.background_x < -self.background.get_width()/2:
+                        self.background_x = -self.background.get_width()/2
 
         else:
             self.sign_text.render(self.surface)
@@ -288,7 +292,7 @@ class DragRacing(Level):
         self.o_car.rect = pygame.Rect(self.o_car.x, self.o_car.y, self.width/4, self.height/4)
 
         self.info_rect = pygame.Rect(self.width/8, self.height * 3/4, self.width * 3/4, self.height/4)
-        self.info = Text('Tap the space bar as each light changes color, on the green, the race begins. Good luck! \nPress ENTER to continue.', self.info_rect)
+        self.info = Text('Tap the space bar as each light changes color. On the green light, the race begins. Good luck! \nPress ENTER to continue.', self.info_rect)
 
         self.light = -1
 
@@ -341,7 +345,7 @@ class DragRacing(Level):
                 if self.completed:
                     data = {'alerts': ['Congratulations, you won the first event: Drag Racing! \nPress ENTER to continue.']}
                 else:
-                    data = {'alerts': ['Unfortunately, you did not win this event. You may retry by entering the door again. \nPress ENTER to continue.']}
+                    data = {'alerts': ['Unfortunately, you mistimed your taps. You may retry by entering the door again. \nPress ENTER to continue.']}
 
                 self.lm.get_level('lobby').incoming_data = True
                 self.lm.set_level('lobby', data=data)
@@ -371,23 +375,24 @@ class DragRacing(Level):
             self.was_down = False
             self.times.append(datetime.datetime.now())
 
-        if len(self.times) == 4:
-            diff =[]
-            for i, t in enumerate(self.times[1:]):
-                diff.append(abs((self.light_times[i] - self.times[1:][i]).total_seconds()))
-            print(f'1: {diff[0]}, 2: {diff[1]}, 3: {diff[2]}')
+        if len(self.times) >= 4:
+            if len(self.light_times) == 3:
+                diff =[]
+                for i, t in enumerate(self.times[1:4]):
+                    diff.append(abs((self.light_times[i] - self.times[1:][i]).total_seconds()))
+                print(f'1: {diff[0]}, 2: {diff[1]}, 3: {diff[2]}')
 
-            if sum(diff) > 1.5:
-                self.simulating = True
-                self.p_car.acceleration = .8 * 100
+                if sum(diff) > 1.5:
+                    self.simulating = True
+                    self.p_car.acceleration = .8 * 100
 
-                self.lm.remove_level('level_0')
-                self.lm.add_level('level_0', DragRacing(self.surface, self.lm, self.im))
+                    self.lm.remove_level('level_0')
+                    self.lm.add_level('level_0', DragRacing(self.surface, self.lm, self.im))
 
-            else:
-                self.p_car.acceleration = 1.2 * 100
-                self.completed = True
-                self.simulating = True
+                else:
+                    self.p_car.acceleration = 1.2 * 100
+                    self.completed = True
+                    self.simulating = True
 
 
 
