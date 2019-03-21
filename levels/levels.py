@@ -3,13 +3,24 @@ import sys
 import pygame
 import os
 import datetime
+import json
 
 from run import resource_path
+from random import randint
 from levels.Level import Level
 from levels.objects.player import Player
 from levels.objects.car import Car
 from lib.render_text import Text
 
+
+def pick_random(l, n):
+    nl = l
+    c = []
+    while len(c) < n:
+        i = randint(0, len(nl) - 1)
+        c.append(nl.pop(i))
+
+    return c
 
 class MainMenu(Level):
     def __init__(self, surface, lm, im):
@@ -344,7 +355,14 @@ class DragRacing(Level):
 
         self.width, self.height = self.surface.get_size()
 
-        self.lights = [pygame.Rect(self.width * 1/9 + self.width/3 * i, self.height/12, self.width/20, self.width/20) for i in range(3)]
+        self.background = pygame.transform.scale(pygame.image.load(resource_path(os.path.join('resources', 'grid.png'))), self.surface.get_size())
+
+        self.lights = [
+            pygame.Rect(self.width * 3 / 8 - self.width/40, self.height/8 - self.width/40, self.width/20, self.width/20),
+            pygame.Rect(self.width * 4 / 8 - self.width/40, self.height/8 - self.width/40, self.width / 20, self.width / 20),
+            pygame.Rect(self.width * 5 / 8 - self.width/40, self.height/8 - self.width/40, self.width / 20, self.width / 20)
+                       ]
+
         self.colors = [(255,255,0),(255,255,0),(0,255,0)]
 
         self.p_car = Car(y=self.height * 4/16)
@@ -374,6 +392,7 @@ class DragRacing(Level):
 
     def draw(self):
         self.surface.fill(255)
+        self.surface.blit(self.background, self.surface.get_rect())
         self.p_car.draw(self.surface)
         self.o_car.draw(self.surface)
 
@@ -467,19 +486,73 @@ class Trivia(Level):
 
         self.width, self.height = self.surface.get_size()
 
-        self.buttons = [
-            pygbutton.PygButton()
+        self.button_labels = ['A', 'B', 'C', 'D']
+        self.buttons_rects = [pygame.Rect(self.width/4 + self.width/8 * i, self.height/8 * 6, self.width/8, self.height/8) for i in range(4)]
+        self.buttons = [ pygbutton.PygButton(self.buttons_rects[i], self.button_labels[i]) for i in range(4)]
 
-        ]
+        self.p = Player(x=self.width/8, y=self.height/4)
+        self.p.scale = self.height/2
+
+        self.o = Player(x=self.width/8 * 6, y=self.height/4)
+        self.o.scale = self.height/2
+        self.o.texture = pygame.transform.flip(pygame.image.load(os.path.join('resources', 'player.png')), True, False)
+
+        self.question_rect = pygame.Rect(self.width/4, 0, self.width/2, self.height/2)
+        self.question_num = 0
+
+        with open(resource_path(os.path.join('resources', 'q.json'))) as f:
+            self.question_pool = json.loads(f.read())
+
+        self.questions = pick_random(self.question_pool, 10) # [{'q': 'What is this question?', 'a': ['A1', 'A2', 'A3', 'A4']}]
+
+        self.num_correct = 0
 
     def draw(self):
-        # self.surface.blit(self.background, self.background.get_rect())
-        # self.p.draw(self.surface)
-        pass
+        self.surface.fill((255, 255, 255))
+        if self.question_num < len(self.questions):
+            for button in self.buttons:
+                button.draw(self.surface)
+
+            self.p.draw(self.surface)
+            self.o.draw(self.surface)
+
+            # print(self.questions)
+            t = Text(f""" Question ({self.question_num + 1}/{len(self.questions)})
+     {self.questions[self.question_num]['q']}
+     A. {self.questions[self.question_num]['a'][0]}
+     B. {self.questions[self.question_num]['a'][1]}
+     C. {self.questions[self.question_num]['a'][2]}
+     D. {self.questions[self.question_num]['a'][3]}""", self.question_rect)
+
+            t.render(self.surface)
+
+        else:
+            if self.num_correct >= 7:
+                self.completed = True
+
+                data = {'alerts': [f' Congratulations you beat your opponent!\n\n Press ENTER to continue.']}
+                self.lm.get_level('lobby').incoming_data = True
+                self.lm.set_level('lobby', data=data)
+
+            else:
+                data = {'alerts': [f' Unfortunately you did not beat your opponent.\n He scored 7/10, while you only scored {self.num_correct}/10. Feel free to try the level again\n\n Press ENTER to continue.']}
+                self.lm.get_level('lobby').incoming_data = True
+                self.lm.set_level('lobby', data=data)
+                self.lm.remove_level('level_1')
+                self.lm.add_level('level_1', Trivia(self.surface, self.lm))
+
+    def event_update(self, event):
+        for i, button in enumerate(self.buttons):
+            if 'click' in button.handleEvent(event):
+                choice = self.button_labels[i]
+                if choice == self.questions[self.question_num]['c']:
+                    self.num_correct += 1
+
+                self.question_num += 1
 
     def update(self, timedelta):
-        if pygame.sprite.collide_rect(Player, self.doorways[1]):
-            print('Player has entered door and will do X trivia')
+        super().update(timedelta)
+        pass
 
 
 

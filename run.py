@@ -40,6 +40,7 @@ if __name__ == '__main__':
         MainMenu = MainMenu(windowSurface, lm, i)
         Credits = Credits(windowSurface, lm)
         Lobby = Lobby(windowSurface, lm, i)
+        Trivia = Trivia(windowSurface, lm)
         DragRacing = DragRacing(windowSurface, lm, i)
         Options = Options(windowSurface, lm)
 
@@ -48,6 +49,7 @@ if __name__ == '__main__':
         lm.add_level('options', Options)
         lm.add_level('lobby', Lobby)
         lm.add_level('level_0', DragRacing)
+        lm.add_level('level_1', Trivia)
 
         lm.set_level('mainmenu')
 

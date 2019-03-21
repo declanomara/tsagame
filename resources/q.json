@@ -1,0 +1,13 @@
+[
+ {
+  "q": "What does BIOS stand for?",
+  "a": ["Board Integrated Output System", "Basic Input Output System", "BIOS is not a real acronym", "None of the above"],
+  "c": "B"
+ },
+
+ {
+  "q": "Question 2?",
+  "a": ["A1", "A2", "A3", "A4"],
+  "c": "A"
+ }
+]
