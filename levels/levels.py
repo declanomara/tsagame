@@ -90,7 +90,17 @@ class MainMenu(Level):
 class Credits(Level):
     def __init__(self, surface, lm):
         self.name = 'credits'
+        self.surface = surface
+        self.lm = lm
         super().__init__(self.name, surface, lm)
+
+        self.width, self.height = surface.get_size()
+
+        self.text_rect = pygame.Rect(self.width/4, self.height/4, self.width/2, self.height/2)
+
+    def draw(self):
+
+    def
 
     def draw(self):
         self.surface.fill((255, 255, 255))
