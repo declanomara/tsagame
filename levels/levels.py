@@ -97,6 +97,9 @@ class Credits(Level):
         self.width, self.height = surface.get_size()
 
         self.text_rect = pygame.Rect(self.width/4, self.height/4, self.width/2, self.height/2)
+        self.creds = Text(''' This game was made by:
+        Declan O'Mara - Lead Coder
+        Tommy Lasagne - Artistic ''')
 
     def update(self, timedelta):
         pass

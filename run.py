@@ -46,6 +46,7 @@ if __name__ == '__main__':
         lm.add_level('credits', Credits)
         lm.add_level('lobby', Lobby)
         lm.add_level('level_0', DragRacing)
+
         lm.set_level('mainmenu')
 
         p = Player()
