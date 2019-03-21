@@ -41,9 +41,11 @@ if __name__ == '__main__':
         Credits = Credits(windowSurface, lm)
         Lobby = Lobby(windowSurface, lm, i)
         DragRacing = DragRacing(windowSurface, lm, i)
+        Options = Options(windowSurface, lm)
 
         lm.add_level('mainmenu', MainMenu)
         lm.add_level('credits', Credits)
+        lm.add_level('options', Options)
         lm.add_level('lobby', Lobby)
         lm.add_level('level_0', DragRacing)
 
@@ -74,5 +76,5 @@ if __name__ == '__main__':
 
             pygame.display.update()
 
-    except:
+    except ConnectionAbortedError:
         sys.exit(1)

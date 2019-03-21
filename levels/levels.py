@@ -87,6 +87,37 @@ class MainMenu(Level):
                     sys.exit(1)
 
 
+class Options(Level):
+    def __init__(self, surface, lm):
+        self.name = 'options'
+        self.surface = surface
+        self.lm = lm
+        super().__init__(self.name, surface, lm)
+
+        self.width, self.height = surface.get_size()
+
+        self.background = pygame.transform.scale(pygame.image.load(resource_path(os.path.join('resources', 'mainmenubackground_0.png'))), self.surface.get_size())
+        self.button_rect = pygame.Rect(0, 0, self.width/8, self.height/12)
+        self.back_button = pygbutton.PygButton(self.button_rect, 'Back')
+
+        self.text_rect = pygame.Rect(self.width/4, self.height/4, self.width/2, self.height/2)
+        self.creds = Text(''' Unfortunately options have not been implemented yet due to time constraints''', self.text_rect)
+
+    def update(self, timedelta):
+        super().update(timedelta)
+
+    def event_update(self, event):
+        super().event_update(event)
+
+        if 'click' in self.back_button.handleEvent(event):
+            self.lm.set_level('mainmenu')
+
+    def draw(self):
+        self.surface.fill((255, 255, 255))
+        self.surface.blit(self.background, self.surface.get_rect())
+        self.back_button.draw(self.surface)
+        self.creds.render(self.surface)
+
 class Credits(Level):
     def __init__(self, surface, lm):
         self.name = 'credits'
@@ -96,18 +127,37 @@ class Credits(Level):
 
         self.width, self.height = surface.get_size()
 
+        self.background = pygame.transform.scale(pygame.image.load(resource_path(os.path.join('resources', 'mainmenubackground_0.png'))), self.surface.get_size())
+        self.button_rect = pygame.Rect(0, 0, self.width/8, self.height/12)
+        self.back_button = pygbutton.PygButton(self.button_rect, 'Back')
+
         self.text_rect = pygame.Rect(self.width/4, self.height/4, self.width/2, self.height/2)
         self.creds = Text(''' This game was made by:
-        Declan O'Mara - Lead Coder
-        Tommy Lasagne - Artistic ''')
+        Declan O'Mara - Lead Software Engineer
+        Tommy Lasagne - Artistic Director
+        John Kachian - ???
+         
+ Many thanks to:
+        pygame contributors (github.com/pygame/pygame)
+        Al Sweigart, pygbutton developer (github.com/asweigart/pygbutton)
+        
+ All source code can be found at:
+ github.com/declanomara/tsagame''', self.text_rect)
 
     def update(self, timedelta):
-        pass
+        super().update(timedelta)
+
+    def event_update(self, event):
+        super().event_update(event)
+
+        if 'click' in self.back_button.handleEvent(event):
+            self.lm.set_level('mainmenu')
 
     def draw(self):
         self.surface.fill((255, 255, 255))
-        # print('Declan, Tommy, John')
-        print(self.data)
+        self.surface.blit(self.background, self.surface.get_rect())
+        self.back_button.draw(self.surface)
+        self.creds.render(self.surface)
 
 
 class Lobby(Level):
@@ -126,7 +176,7 @@ class Lobby(Level):
         self.checked_data = False
 
         self.background = pygame.transform.scale(pygame.image.load(resource_path(os.path.join('resources', 'lobbybackground.png'))), (self.surface.get_width() * 2, self.surface.get_height()))
-        self.nature = pygame.transform.scale(pygame.image.load(resource_path(os.path.join('resources', 'nature.jpg'))), (self.surface.get_width() * 3, self.surface.get_height()))
+        self.nature = pygame.transform.scale(pygame.image.load(resource_path(os.path.join('resources', '8bitnature.png'))), (self.surface.get_width() * 3, self.surface.get_height()))
         self.p = Player(x=self.player_x, y=self.player_y)
         self.p.scale = self.height / 15 * 3
 
@@ -153,7 +203,7 @@ class Lobby(Level):
         self.incoming_data = False
 
     def draw(self):
-        self.surface.blit(self.nature, pygame.Rect(self.background_x * 1.1 - self.p.get_width() * 3, -self.p.get_height()/3*2, self.width, self.height))
+        self.surface.blit(self.nature, pygame.Rect(self.background_x * 1.1 , -self.p.get_height()*5/3, self.width, self.height))
         self.surface.blit(self.background, pygame.Rect(self.background_x, 0, self.width, self.height))
 
         for i, door in enumerate(self.doors):
@@ -415,12 +465,12 @@ class Trivia(Level):
         self.lm = lm
         super().__init__(self.name, self.surface, self.lm)
 
-        self.doorwayTexture = pygame.image.load('levels/objects/doorway.png')
-        self.doorways = ['A', 'B', 'C']
+        self.width, self.height = self.surface.get_size()
 
-        self.options = ['Animation', 'Coding', 'Music', 'Video Games']
+        self.buttons = [
+            pygbutton.PygButton()
 
-        self.buttons = []
+        ]
 
     def draw(self):
         # self.surface.blit(self.background, self.background.get_rect())
