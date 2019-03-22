@@ -6,8 +6,32 @@
  },
 
  {
-  "q": "Question 2?",
-  "a": ["A1", "A2", "A3", "A4"],
+  "q": "Which of the following is not a programming language?",
+  "a": ["Python", "Java", "Ruby", "Fast"],
+  "c": "D"
+ },
+
+ {
+  "q": "What is the job of a CPU?",
+  "a": ["Csrry out instructions on the computer", "Change the volume of the computer", "CPU is not a computer part, it is only used in printers"],
   "c": "A"
+ },
+
+ {
+  "q": "What is NOT important to keep in mind when filming something?",
+  "a": ["Lighting", "Gradient", "Scenery", "Audio Quality"],
+  "c": "B"
+ },
+
+ {
+  "q": "WWhat is the general order of the stages of video production?",
+  "a": ["Pre-production, Development, Post-production, Production, Distribution", "Production, Development, Distribution", "Development, Pre-production, Production, Post-production Distribution", "None of the above"],
+  "c": "C"
+ },
+
+ {
+  "q": "What is NOT important to keep in mind when filming something?",
+  "a": ["Lighting", "Gradient", "Scenery", "Audio Quality"],
+  "c": "B"
  }
 ]
