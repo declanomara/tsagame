@@ -13,8 +13,20 @@
 
  {
   "q": "What is the job of a CPU?",
-  "a": ["Csrry out instructions on the computer", "Change the volume of the computer", "CPU is not a computer part, it is only used in printers"],
+  "a": ["Carry out instructions on the computer", "Change the volume of the computer", "CPU is not a computer part, it is only used in printers"],
   "c": "A"
+ },
+
+ {
+  "q": "Which of these is not a TSA event?",
+  "a": ["Coding", "Video Production", "Architecture", "Virtual Design"],
+  "c": "D"
+ },
+
+ {
+  "q": "Which of these is not an input device?",
+  "a": ["Mouse", "Speaker", "Keyboard", "Microphone"],
+  "c": "B"
  },
 
  {
@@ -30,8 +42,52 @@
  },
 
  {
-  "q": "What is NOT important to keep in mind when filming something?",
-  "a": ["Lighting", "Gradient", "Scenery", "Audio Quality and Volume"],
+  "q": "What does LEAP stand for?",
+  "a": ["Louisiana Educational Assessment Program", "Local Education Agency Plan", "Leveraging Educational Assistance Partnership", "None of the Above"],
+  "c": "D"
+ },
+
+ {
+  "q": "Which of these is NOT an operating system",
+  "a": ["Windows", "Ubuntu", "Track ", "Max OS"],
+  "c": "C"
+ },
+
+ {
+  "q": "ENIAC, the first computer, was used for....",
+  "a": ["Educational Purposes", "Military Purposes", "Social Purposes", "Scientific Purposes"],
   "c": "B"
+ },
+
+ {
+  "q": "What does TSA stand for?",
+  "a": ["Technology Student Association", "Technology Scholars Association", "Technological Student Agreement", "Technology School Act"],
+  "c": "A"
+ },
+
+ {
+  "q": "In what year was TSA founded?",
+  "a": ["1998", "1978", "1988", "2017"],
+  "c": "B"
+ },
+
+ {
+  "q": "What is the TSA motto?",
+  "a": ["Uniting technical students nationwide", "Learning to become part of the future", "Learning to lead in technical world", "Supporting students with technical talents"],
+  "c": "C"
+ },
+
+ {
+  "q": "",
+  "a": ["", "", "", ""],
+  "c": "D"
+ },
+
+ {
+  "q": "",
+  "a": ["", "", "", ""],
+  "c": "D"
  }
+
+
 ]
