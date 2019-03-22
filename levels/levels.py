@@ -242,6 +242,12 @@ class Lobby(Level):
     def update(self, timedelta):
         self.floor_height = 7 * self.height / 15 + self.p.get_height()
         if self.incoming_data:
+            game_over = True
+            for i in range(3):
+                print(self.lm.get_level(f'level_{i}').name, self.lm.get_level(f'level_{i}').completed)
+                if not self.lm.get_level(f'level_{i}').completed:
+                    game_over = False
+            print('Game over', game_over)
             print('Checking for data')
             try:
                 if 'player' in self.data:
@@ -268,7 +274,8 @@ class Lobby(Level):
                 # print(self.data)
                 print(e)
                 pass
-
+            if game_over:
+                self.alerts.append(' Congratulations, you finished our game!. We hope you enjoyed it. For more information about the game, head over to the credits screen.')
             self.incoming_data = False
 
             self.draw()
@@ -553,6 +560,92 @@ class Trivia(Level):
     def update(self, timedelta):
         super().update(timedelta)
         pass
+
+
+class HouseBuilder(Level):
+    def __init__(self, surface, lm, im):
+        self.surface = surface
+        self.lm = lm
+        self.name = 'housebuilder'
+        super().__init__(self.name, self.surface, self.lm)
+
+        self.width, self.height = self.surface.get_size()
+        self.im = im
+
+        self.roof = Player(texture=os.path.join('resources', 'roof.png'))
+        self.roof.ratio = 960/135
+
+        self.roof.x = 0
+        self.roof.y = self.height/16
+        self.roof.scale = self.height/8
+
+        self.dropping = False
+        self.dropped = False
+
+
+        self.floor_height = self.height/8 * 2
+
+        self.background = pygame.transform.scale(pygame.image.load(os.path.join('resources', 'housebuilderbackground.png')), self.surface.get_size())
+
+        self.arm = pygame.image.load(os.path.join('resources', 'cranearm.png'))
+        self.armrect = pygame.Rect(self.width / 16, self.height / 16 - self.height / 32,
+                                   self.roof.x + self.roof.get_width() / 2 - self.width / 16, self.height / 32)
+
+    def draw(self):
+        self.surface.blit(self.background, self.surface.get_rect())
+        if self.dropping:
+            self.roof.y += self.height/128
+
+        if self.roof.y >= self.floor_height:
+            self.roof.y = self.floor_height
+            self.dropping = False
+            self.dropped = True
+
+        if self.roof.x + self.roof.get_width()/2 - self.width/16 > 0:
+            self.arm = pygame.transform.scale(self.arm, (int(self.roof.x + self.roof.get_width()/2 - self.width/16), int(self.height/32)))
+            self.armrect = pygame.Rect(self.width/16, self.height/16 - self.height/32, self.roof.x + self.roof.get_width()/2 - self.width/16, self.height/32)
+        self.surface.blit(self.arm, self.armrect)
+        self.roof.draw(self.surface)
+
+    def update(self, timedelta):
+        super().update(timedelta)
+
+        direction = {'x': 0, 'y': 0}
+
+        if self.im.is_pressed('a') and not self.dropped:
+            direction['x'] -= 1
+
+        if self.im.is_pressed('d') and not self.dropped:
+            direction['x'] += 1
+
+        self.roof.move(direction, timedelta)
+
+
+        if self.im.is_pressed('space') and not self.dropping:
+            self.dropping = True
+
+
+        if self.dropped:
+            if self.roof.x > self.width/4 + self.width * 50/1920 or self.roof.x + self.roof.get_width() < self.width/8*6 - self.width * 50/1920:
+                self.completed = False
+                data = {'alerts': [' You failed to place the roof centred on the house, it fell off. \n You may try again. \n\n Press ENTER to continue.']}
+                self.lm.get_level('lobby').data_incoming = True
+                self.lm.set_level('lobby', data=data)
+                self.lm.remove_level('level_2')
+                self.lm.add_level('level_2', HouseBuilder(self.surface, self.lm, self.im))
+
+            else:
+                self.completed = True
+                data = {'alerts': [' Congratulations, you placed the roof successfully. \n\n Press ENTER to continue.']}
+                self.lm.get_level('lobby').incoming_data = True
+                self.lm.set_level('lobby', data=data)
+
+
+
+
+
+
+
 
 
 

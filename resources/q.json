@@ -13,7 +13,7 @@
 
  {
   "q": "What is the job of a CPU?",
-  "a": ["Carry out instructions on the computer", "Change the volume of the computer", "CPU is not a computer part, it is only used in printers"],
+  "a": ["Csrry out instructions on the computer", "Change the volume of the computer", "CPU is not a computer part, it is only used in printers", "Handle user input"],
   "c": "A"
  },
 

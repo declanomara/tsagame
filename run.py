@@ -43,6 +43,7 @@ if __name__ == '__main__':
         Trivia = Trivia(windowSurface, lm)
         DragRacing = DragRacing(windowSurface, lm, i)
         Options = Options(windowSurface, lm)
+        HouseBuilder = HouseBuilder(windowSurface, lm, i)
 
         lm.add_level('mainmenu', MainMenu)
         lm.add_level('credits', Credits)
@@ -50,6 +51,7 @@ if __name__ == '__main__':
         lm.add_level('lobby', Lobby)
         lm.add_level('level_0', DragRacing)
         lm.add_level('level_1', Trivia)
+        lm.add_level('level_2', HouseBuilder)
 
         lm.set_level('mainmenu')
 
