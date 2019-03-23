@@ -13,7 +13,7 @@
 
  {
   "q": "What is the job of a CPU?",
-  "a": ["Csrry out instructions on the computer", "Change the volume of the computer", "CPU is not a computer part, it is only used in printers", "Handle user input"],
+  "a": ["Carry out instructions on the computer", "Change the volume of the computer", "CPU is not a computer part, it is only used in printers", "Handle user input"],
   "c": "A"
  },
 
@@ -48,7 +48,7 @@
  },
 
  {
-  "q": "Which of these is NOT an operating system",
+  "q": "Which of these is not an operating system",
   "a": ["Windows", "Ubuntu", "Track ", "Max OS"],
   "c": "C"
  },
@@ -75,18 +75,6 @@
   "q": "What is the TSA motto?",
   "a": ["Uniting technical students nationwide", "Learning to become part of the future", "Learning to lead in technical world", "Supporting students with technical talents"],
   "c": "C"
- },
-
- {
-  "q": "",
-  "a": ["", "", "", ""],
-  "c": "D"
- },
-
- {
-  "q": "",
-  "a": ["", "", "", ""],
-  "c": "D"
  }
 
 
